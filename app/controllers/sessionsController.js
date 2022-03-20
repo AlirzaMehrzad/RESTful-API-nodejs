@@ -10,10 +10,12 @@ exports.newSession = async (req, res, next) => {
             return res.status(404).send({
                 status: '404',
                 code:404,
-                message:'information are not correct'
+                message:'اطلاعات صحیح نمیباشد'
             })
         }
+
         const token = tokenService.sign({id:user._id})
+        
         res.send({
             status:"success",
             code:200,

@@ -2,7 +2,6 @@ const userModel = require('../models/userModel')
 
 
 const usersList = async (req, res, next) => {
-
     let projection = {}
     if (req.query.hasOwnProperty('fields')) {
         projection = req.query.fields.split(',').reduce((total, current) => {
@@ -24,7 +23,8 @@ const addUser = async (req, res, next) =>{
 
     try {
         const {first_name,last_name,mobile,email} = req.body
-
+        const userImage = req.file.path
+        
         if(first_name === undefined|| first_name === "" || last_name === ""){
             return res.send(422).send({
                 error: true,
@@ -36,10 +36,12 @@ const addUser = async (req, res, next) =>{
             first_name,
             last_name,
             mobile,
-            email
+            email,
+            userImage
         })
         
         await newUser.save()
+       
         res.status(201).send({
             success: true,
             message: 'کاربر جدید با موفقیت ایجاد شد',
@@ -61,7 +63,9 @@ const getUser = async (req, res, next) => {
         if(!id){
             return res.status(404).send({error:true, message:'no user found'})
         }
+
         const user = await userModel.findOne({_id:id})
+        
         if(!user){
             return res.status(404).send({error:true, message:'no user found'})
         }

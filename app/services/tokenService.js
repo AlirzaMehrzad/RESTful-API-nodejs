@@ -8,7 +8,8 @@ exports.verify = (token) => {
     try {
         const payload = jwt.verify(token, process.env.APP_SECRET)
         return true
-    } catch (error) {
+    } 
+    catch (error) {
         return false
     }
 }
